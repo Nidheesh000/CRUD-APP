@@ -14,7 +14,7 @@ function Login1(props) {
 
         <input type="text" placeholder="Username" className="form-control mb-3" />
         <input type="text" placeholder="Password" className="form-control mb-3" />
-        <Button variant="primary">Login</Button>
+        <Button variant="primary" onClick={() => props.setIsLoggedIn(true)}>Login</Button>
       </div>
     </div>
   );
