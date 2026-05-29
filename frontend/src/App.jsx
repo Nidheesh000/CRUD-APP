@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
@@ -23,36 +24,50 @@ function App() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  useEffect(()=>{
+    if(isLoggedIn){
+      getComplaints();
+    }
+  },[isLoggedIn]);
+
 
 const addComplaint=async()=>{
   const newComplaint={
     department:department,
     description:description,
     image:image
-  }
-  await axios.post("http://localhost:3000/complaints",newComplaint)
+  };
+  await axios.post("http://localhost:3000/complaints",newComplaint);
 
 
 getComplaints();
-}
+};
+
 const getComplaints=async()=>{
   const response=await axios.get("http://localhost:3000/complaints")
-  setComplaints(response.data)
-}
+  setComplaints(response.data);
+};
 
 
-const deleteComplaint=(index)=>{
-  const updatedComplaints=complaints.filter((item,i)=> i !==index);
-  setComplaints(updatedComplaints);
+const deleteComplaint=async(id)=>{
+  try{
+    await axios.delete(`http://localhost:3000/complaints/${id}`);
+    getComplaints();
+  }catch(error){
+    console.error("Error deleting complaint:", error);
+  }
 }
 
 
 
   return (
     isLoggedIn ? 
-   <div>
+   <div style={{width:"100%"}}>
     
-    <Navbar1
+    
+    <div className='mt-3'>
+
+      <Navbar1
      setIsLoggedIn={setIsLoggedIn}>
 
     </Navbar1>
@@ -62,24 +77,22 @@ const deleteComplaint=(index)=>{
     setImage={setImage}
     addComplaint={addComplaint}
     ></HeroSection> 
+    </div>
     <div className='d-flex flex-wrap justify-content-center gap-3'>
 {
-    complaints.map((items,index)=>(
+    complaints.map((item)=>(
         <Card1
-        department={items.department}
-        description={items.description}
-        image={items.image}
-        deleteComplaint={deleteComplaint}
-        index={index}
+        key={item._id}
+        department={item.department}
+        description={item.description}
+        image={item.image}
+        deleteComplaint={()=>deleteComplaint(item._id)}
         ></Card1> 
         
      ))
      }
 </div>
-    <Footer>
-    
-    </Footer>
-    
+<Footer setIsLoggedIn={setIsLoggedIn}></Footer>
     
    </div>
 :  

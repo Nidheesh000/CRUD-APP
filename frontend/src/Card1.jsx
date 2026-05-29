@@ -10,7 +10,8 @@ function Card1(props) {
         <Card.Text>
           {props.description}
         </Card.Text>
-       <Button variant="danger" onClick={() => props.deleteComplaint(props.index)}>Delete Complaint
+       <Button variant="danger" onClick={props.deleteComplaint}>
+        Delete
         </Button>
       </Card.Body>
     </Card>
