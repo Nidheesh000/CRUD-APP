@@ -4,7 +4,7 @@ const app = express()
 const mongoose=require("mongoose")
 app.use(cors())
 app.use(express.json())
-mongoose.connect("mongodb+srv://nijithvlk9400:NJT5162@cluster0.fi0qono.mongodb.net/sample?appName=Cluster0")
+mongoose.connect("mongodb+srv://nidheeshkm567_db_user:nidheesh1abc@cluster0.clmhytj.mongodb.net/complaintbox?appName=Cluster0")
   .then(() => console.log('Connected to MongoDB!'))
   .catch(err => console.error('Database connection error:', err));
 
@@ -15,6 +15,49 @@ mongoose.connect("mongodb+srv://nijithvlk9400:NJT5162@cluster0.fi0qono.mongodb.n
 
   });
   const Complaint = mongoose.model('Complaint', ComplaintSchema);
+
+  const userSchema = new mongoose.Schema({
+    username: String,
+    password:String
+  });
+  const User = mongoose.model('User', userSchema);
+
+  
+app.post('/login',async(req,res) => {
+  try {
+    const{ username, password } = req.body;
+    
+    const foundUser = await User.findOne({ username: username,password:password});
+
+    if(foundUser){
+
+      res.status(200).json({message:"Login successful"})
+     } else{
+      res.status(401).json({ message: "worng username or password"})
+     }
+    }catch (error){
+      res.status(500).json({error:error.message});
+ 
+    }
+  });
+  app.post('/register',async (req, res) => {
+    try{
+  const newUser = new User(req.body);
+  await newUser.save();
+  res.status(201).json({ message: "User created successfully!" });
+    } catch (error) {
+      res.status(500).json({error:error.message});
+    }
+  });
+
+    
+  
+
+
+    
+
+
+
   app.post('/complaints', async (req, res) => {
     try{
       const newComplaint = new Complaint(req.body);
