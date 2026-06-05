@@ -37,21 +37,21 @@ const addComplaint=async()=>{
     description:description,
     image:image
   };
-  await axios.post("http://localhost:3000/complaints",newComplaint);
+  await axios.post("https://crud-app-te2u.onrender.com/complaints",newComplaint);
 
 
 getComplaints();
 };
 
 const getComplaints=async()=>{
-  const response=await axios.get("http://localhost:3000/complaints")
+  const response=await axios.get("https://crud-app-te2u.onrender.com/complaints")
   setComplaints(response.data);
 };
 
 
 const deleteComplaint=async(id)=>{
   try{
-    await axios.delete(`http://localhost:3000/complaints/${id}`);
+    await axios.delete(`https://crud-app-te2u.onrender.com/complaints/${id}`);
     getComplaints();
   }catch(error){
     console.error("Error deleting complaint:", error);

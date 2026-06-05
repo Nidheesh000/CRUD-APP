@@ -12,7 +12,7 @@ function Login1(props) {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('http://localhost:3000/login', { username:username, password: password });
+      const response = await axios.post('https://crud-app-te2u.onrender.com/login', { username:username, password: password });
       if (response.status === 200) {
         props.setIsLoggedIn(true);
       }
@@ -24,7 +24,7 @@ function Login1(props) {
 
   const handleRegister = async () => {
     try {
-      const response = await axios.post('http://localhost:3000/register', { username:username, password: password });
+      const response = await axios.post('https://crud-app-te2u.onrender.com/register', { username:username, password: password });
       if (response.status === 200) {
         alert("Account created successfully! You can now log in.");
         setIsRegistering(false);
