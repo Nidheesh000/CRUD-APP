@@ -61,7 +61,7 @@ function Login1(props) {
               Don't have an account?
               <span className="text-primary" style={{cursor:"pointer", textDecoration:"underline"}} onClick={() => setIsRegistering(true)}>Register here</span>
             </p>
-          )}
+          )};
         </div>
       </div>
     </div>
